@@ -1,0 +1,14 @@
+doctype
+html(lang='en').page
+  include blocks/head
+  block vars
+  title #{title}
+  body.page__body
+    .container
+      include sections/header
+      section.main-section
+        .section-wrapper
+          h2.secondary-heading Title
+          p.primary-text privet
+      include sections/footer
+    include ../helpers/common

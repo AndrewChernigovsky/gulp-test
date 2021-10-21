@@ -9,7 +9,10 @@ const sass = require('gulp-sass')(require('sass'));
 const uglify = require('gulp-uglify');
 const babel = require('gulp-babel');
 const htmlmin = require('gulp-htmlmin');
-const browserSync = require('browser-sync').create();
+const rename = require("gulp-rename");
+const webp = require("gulp-webp");
+const svgstore = require("gulp-svgstore");
+const sync = require('browser-sync').create();
 
 function clean() {
   return del('production');
@@ -20,26 +23,30 @@ function pug2html() {
   .pipe(plumber())
   .pipe(pug({pretty: true}))
   .pipe(plumber.stop())
-  .pipe(gulp.dest('production/'));
+  .pipe(gulp.dest('production/'))
+  .pipe(sync.stream());
 }
 
 function html() {
   return gulp.src("production/*.html")
   .pipe(htmlmin({ collapseWhitespace: true }))
-  .pipe(gulp.dest("production/"));
+  .pipe(gulp.dest("production/"))
+  .pipe(sync.stream());
 }
 
 
 function scss2css() {
   return gulp.src('source/sass/styles.scss')
   .pipe(plumber())
-  .pipe(sass())
   .pipe(sourcemaps.init())
-  .pipe(autoprefixer())
+  .pipe(sass())
   .pipe(cssmin())
+  .pipe(autoprefixer())
   .pipe(plumber.stop())
   .pipe(sourcemaps.write('../css/sourcemaps/'))
-  .pipe(gulp.dest('production/css/'));
+  .pipe(rename('style.min.css'))
+  .pipe(gulp.dest('production/css/'))
+  .pipe(sync.stream());
 }
 
 function script() {
@@ -50,7 +57,9 @@ function script() {
   }))
   .pipe(uglify())
   .pipe(sourcemaps.write('../js/sourcemaps/'))
-  .pipe(gulp.dest('production/js/'));
+  .pipe(rename('main.min.js'))
+  .pipe(gulp.dest('production/js/'))
+  .pipe(sync.stream());
 }
 
 function imageMin() {
@@ -68,6 +77,18 @@ function copyImages() {
   .pipe(gulp.dest("production/image"))
 }
 
+function copy (done){
+  gulp.src([
+    "source/fonts/*.{woff2,woff}",
+    "source/*.ico",
+    "source/img/**/*.svg",
+    "!source/image/icons/*.svg",
+  ], {
+    base: "source"
+  })
+    .pipe(gulp.dest("production"))
+  done()
+}
 
 function createWebp() {
   return gulp.src("source/image/**/*.{jpg,png}")
@@ -75,13 +96,74 @@ function createWebp() {
   .pipe(gulp.dest("production/image"))
 }
 
-function sprite () {
+function sprite() {
   return gulp.src("source/image/icons/*.svg")
     .pipe(svgstore({
       inlineSvg: true
     }))
     .pipe(rename("sprite.svg"))
-    .pipe(gulp.dest("production/image"));
+    .pipe(gulp.dest("production/image"))
+    .pipe(sync.stream());
 }
 
-exports.default = gulp.series(clean, pug2html, html, scss2css, script);
+function server(done){
+  sync.init({
+    server: {
+      baseDir: "production"
+    },
+    cors: true,
+    notify: false,
+    ui: false,
+  });
+  done();
+}
+
+function reload (done){
+  sync.reload()
+  done();
+}
+
+function watcher(){
+  gulp.watch("source/pug/**/*.pug", gulp.series(pug2html, reload));
+  gulp.watch("source/sass/**/*.scss", gulp.series(scss2css, reload));
+  gulp.watch("source/js/script.js", gulp.series(script, reload));
+  gulp.watch("source/*.html", gulp.series(html, reload));
+}
+
+exports.default = gulp.series(
+  clean,
+  copy,
+  copyImages,
+
+  gulp.parallel(
+    pug2html,
+    html,
+    scss2css,
+    script,
+    sprite,
+    createWebp
+  ),
+
+  gulp.series(
+    server,
+    watcher
+  )
+);
+
+exports.build = gulp.series(
+  clean,
+  copy,
+  imageMin,
+  gulp.parallel(
+    pug2html,
+    html,
+    scss2css,
+    script,
+    sprite,
+    createWebp
+  ),
+  gulp.series(
+    server,
+    watcher
+  )
+);
