@@ -13,6 +13,21 @@ const rename = require("gulp-rename");
 const webp = require("gulp-webp");
 const svgstore = require("gulp-svgstore");
 const sync = require('browser-sync').create();
+const ttf2woff = require('gulp-ttf2woff');
+const ttf2woff2 = require('gulp-ttf2woff2');
+
+function fontW() {
+  return gulp.src(['source/fonts/*.ttf'])
+  .pipe(ttf2woff())
+  .pipe(gulp.dest('production/fonts/'));
+};
+
+function fontW2() {
+  return gulp.src(['source/fonts/*.ttf'])
+    .pipe(ttf2woff2())
+    .pipe(gulp.dest('production/fonts/'));
+
+};
 
 function clean() {
   return del('production');
@@ -81,7 +96,7 @@ function copy (done){
   gulp.src([
     "source/fonts/*.{woff2,woff}",
     "source/*.ico",
-    "source/img/**/*.svg",
+    "source/image/**/*.svg",
     "!source/image/icons/*.svg",
   ], {
     base: "source"
@@ -134,6 +149,8 @@ exports.default = gulp.series(
   clean,
   copy,
   copyImages,
+  fontW,
+  fontW2,
 
   gulp.parallel(
     pug2html,
