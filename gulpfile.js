@@ -15,6 +15,7 @@ const svgstore = require("gulp-svgstore");
 const sync = require('browser-sync').create();
 const ttf2woff = require('gulp-ttf2woff');
 const ttf2woff2 = require('gulp-ttf2woff2');
+const concat = require('gulp-concat');
 
 function fontW() {
   return gulp.src(['source/fonts/*.ttf'])
@@ -38,15 +39,15 @@ function pug2html() {
   .pipe(plumber())
   .pipe(pug({pretty: true}))
   .pipe(plumber.stop())
+  .pipe(sync.stream())
   .pipe(gulp.dest('production/'))
-  .pipe(sync.stream());
 }
 
 function html() {
   return gulp.src("production/*.html")
   .pipe(htmlmin({ collapseWhitespace: true }))
+  .pipe(sync.stream())
   .pipe(gulp.dest("production/"))
-  .pipe(sync.stream());
 }
 
 
@@ -60,8 +61,8 @@ function scss2css() {
   .pipe(plumber.stop())
   .pipe(sourcemaps.write('../css/sourcemaps/'))
   .pipe(rename('style.min.css'))
+  .pipe(sync.stream())
   .pipe(gulp.dest('production/css/'))
-  .pipe(sync.stream());
 }
 
 function script() {
@@ -73,8 +74,19 @@ function script() {
   .pipe(uglify())
   .pipe(sourcemaps.write('../js/sourcemaps/'))
   .pipe(rename('main.min.js'))
+  .pipe(sync.stream())
   .pipe(gulp.dest('production/js/'))
-  .pipe(sync.stream());
+}
+
+function copyJquery() {
+  return gulp.src(['source/js/libs/jquery-3.6.0.min.js'])
+  .pipe(gulp.dest('production/js/libs'))
+}
+
+function libs() {
+  return gulp.src(['source/js/libs/swiper-bundle.min.js'])
+  .pipe(concat('libs.js'))
+  .pipe(gulp.dest('production/js/libs'))
 }
 
 function imageMin() {
@@ -89,7 +101,9 @@ function imageMin() {
 
 function copyImages() {
   return gulp.src("source/image/**/*.{png,jpg,svg}")
+  .pipe(sync.stream())
   .pipe(gulp.dest("production/image"))
+
 }
 
 function copy (done){
@@ -108,6 +122,7 @@ function copy (done){
 function createWebp() {
   return gulp.src("source/image/**/*.{jpg,png}")
   .pipe(webp({quality: 90}))
+  .pipe(sync.stream())
   .pipe(gulp.dest("production/image"))
 }
 
@@ -117,8 +132,8 @@ function sprite() {
       inlineSvg: true
     }))
     .pipe(rename("sprite.svg"))
+    .pipe(sync.stream())
     .pipe(gulp.dest("production/image"))
-    .pipe(sync.stream());
 }
 
 function server(done){
@@ -143,6 +158,7 @@ function watcher(){
   gulp.watch("source/sass/**/*.scss", gulp.series(scss2css, reload));
   gulp.watch("source/js/script.js", gulp.series(script, reload));
   gulp.watch("source/*.html", gulp.series(html, reload));
+  gulp.watch("source/image/**/*.{jpg,png,svg,ico}", gulp.series(copyImages, reload));
 }
 
 exports.default = gulp.series(

@@ -1,6 +1,3 @@
-"use strict";var a=6;
-//# sourceMappingURL=sourcemaps/main.js.map
+"use strict";
 
-const {hello} = require('./helpers/swiper');
-
-hello();
+import  $  from  "jquery";
