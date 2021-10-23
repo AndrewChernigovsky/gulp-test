@@ -1,3 +1,1 @@
-"use strict";
-
-import  $  from  "jquery";
+'use strict';

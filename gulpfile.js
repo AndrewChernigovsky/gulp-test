@@ -59,7 +59,6 @@ function scss2css() {
   .pipe(cssmin())
   .pipe(autoprefixer())
   .pipe(plumber.stop())
-  .pipe(sourcemaps.write('../css/sourcemaps/'))
   .pipe(rename('style.min.css'))
   .pipe(sync.stream())
   .pipe(gulp.dest('production/css/'))
@@ -72,7 +71,6 @@ function script() {
       presets: ['@babel/env']
   }))
   .pipe(uglify())
-  .pipe(sourcemaps.write('../js/sourcemaps/'))
   .pipe(rename('main.min.js'))
   .pipe(sync.stream())
   .pipe(gulp.dest('production/js/'))
@@ -80,13 +78,13 @@ function script() {
 
 function copyJquery() {
   return gulp.src(['source/js/libs/jquery-3.6.0.min.js'])
-  .pipe(gulp.dest('production/js/libs'))
+  .pipe(gulp.dest('production/js/libs/'))
 }
 
 function libs() {
   return gulp.src(['source/js/libs/swiper-bundle.min.js'])
   .pipe(concat('libs.js'))
-  .pipe(gulp.dest('production/js/libs'))
+  .pipe(gulp.dest('production/js/libs/'))
 }
 
 function imageMin() {
@@ -174,7 +172,8 @@ exports.default = gulp.series(
     scss2css,
     script,
     sprite,
-    createWebp
+    createWebp,
+    copyJquery
   ),
 
   gulp.series(

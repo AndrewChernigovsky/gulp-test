@@ -56,6 +56,7 @@
     "gulp-ttf2woff2": "^4.0.1",
     "gulp-uglify": "^3.0.2",
     "gulp-webp": "^4.0.1",
+    "import-glob-loader": "^1.1.0",
     "sass": "^1.37.5",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",

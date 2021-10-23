@@ -4,6 +4,11 @@
   }
 
   &__content {
+    display: none;
+    padding: 10px 20px;
 
+    .active {
+      display: block;
+    }
   }
 }
