@@ -117,6 +117,16 @@ function copy (done){
   done()
 }
 
+function copyjs (done){
+  gulp.src([
+    "source/js/bundle.js"
+  ], {
+    base: "source"
+  })
+    .pipe(gulp.dest("production"))
+  done()
+}
+
 function createWebp() {
   return gulp.src("source/image/**/*.{jpg,png}")
   .pipe(webp({quality: 90}))
@@ -173,7 +183,8 @@ exports.default = gulp.series(
     script,
     sprite,
     createWebp,
-    copyJquery
+    copyJquery,
+    copyjs
   ),
 
   gulp.series(

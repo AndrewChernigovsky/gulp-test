@@ -7,8 +7,10 @@
     "editorconfig": "editorconfig-cli",
     "stylelint": "stylelint \"source/sass/**/*.scss\" --syntax scss",
     "test": "npm run editorconfig && npm run stylelint",
+    "browserify": "browserify source/js/main.js -o source/js/bundle.js",
     "build": "gulp build",
-    "start": "gulp"
+    "start": "gulp && npm run browserify",
+    "gulp": "npm run start"
   },
   "editorconfig-cli": [
     "*.json",
@@ -37,14 +39,14 @@
     "gulp-autoprefixer": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-plumber": "^1.2.1",
-    "gulp-pug": "^5.0.0",
-    "normalize.css": "^8.0.1"
+    "gulp-pug": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
     "@htmlacademy/editorconfig-cli": "^1.0.0",
     "browser-sync": "^2.27.5",
+    "browserify": "^17.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-htmlmin": "^5.0.1",
@@ -56,7 +58,7 @@
     "gulp-ttf2woff2": "^4.0.1",
     "gulp-uglify": "^3.0.2",
     "gulp-webp": "^4.0.1",
-    "import-glob-loader": "^1.1.0",
+    "npm-run-all": "^4.1.5",
     "sass": "^1.37.5",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
