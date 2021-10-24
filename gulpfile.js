@@ -1,21 +1,22 @@
-const gulp = require('gulp');
-const autoprefixer = require('gulp-autoprefixer');
-const sourcemaps = require('gulp-sourcemaps');
-const plumber = require('gulp-plumber');
-const pug = require('gulp-pug');
-const del = require('del');
-const cssmin = require('gulp-clean-css');
-const sass = require('gulp-sass')(require('sass'));
-const uglify = require('gulp-uglify');
-const babel = require('gulp-babel');
-const htmlmin = require('gulp-htmlmin');
-const rename = require("gulp-rename");
-const webp = require("gulp-webp");
-const svgstore = require("gulp-svgstore");
-const sync = require('browser-sync').create();
-const ttf2woff = require('gulp-ttf2woff');
-const ttf2woff2 = require('gulp-ttf2woff2');
-const concat = require('gulp-concat');
+const gulp = require('gulp'),
+autoprefixer = require('gulp-autoprefixer'),
+sourcemaps = require('gulp-sourcemaps'),
+plumber = require('gulp-plumber'),
+pug = require('gulp-pug'),
+del = require('del'),
+cssmin = require('gulp-clean-css'),
+sass = require('gulp-sass')(require('sass')),
+uglify = require('gulp-uglify'),
+babel = require('gulp-babel'),
+htmlmin = require('gulp-htmlmin'),
+rename = require("gulp-rename"),
+webp = require("gulp-webp"),
+svgstore = require("gulp-svgstore"),
+sync = require('browser-sync').create(),
+ttf2woff = require('gulp-ttf2woff'),
+ttf2woff2 = require('gulp-ttf2woff2'),
+browserify = require('browserify'),
+concat = require('gulp-concat');
 
 function fontW() {
   return gulp.src(['source/fonts/*.ttf'])
@@ -113,17 +114,8 @@ function copy (done){
   ], {
     base: "source"
   })
-    .pipe(gulp.dest("production"))
-  done()
-}
-
-function copyjs (done){
-  gulp.src([
-    "source/js/bundle.js"
-  ], {
-    base: "source"
-  })
-    .pipe(gulp.dest("production"))
+  .pipe(sync.stream())
+  .pipe(gulp.dest("production"))
   done()
 }
 
@@ -164,7 +156,7 @@ function reload (done){
 function watcher(){
   gulp.watch("source/pug/**/*.pug", gulp.series(pug2html, reload));
   gulp.watch("source/sass/**/*.scss", gulp.series(scss2css, reload));
-  gulp.watch("source/js/script.js", gulp.series(script, reload));
+  gulp.watch("source/js/*.js", gulp.series(script, reload));
   gulp.watch("source/*.html", gulp.series(html, reload));
   gulp.watch("source/image/**/*.{jpg,png,svg,ico}", gulp.series(copyImages, reload));
 }
@@ -184,7 +176,6 @@ exports.default = gulp.series(
     sprite,
     createWebp,
     copyJquery,
-    copyjs
   ),
 
   gulp.series(

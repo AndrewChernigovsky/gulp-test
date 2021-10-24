@@ -6,11 +6,10 @@
   "scripts": {
     "editorconfig": "editorconfig-cli",
     "stylelint": "stylelint \"source/sass/**/*.scss\" --syntax scss",
-    "test": "npm run editorconfig && npm run stylelint",
     "browserify": "browserify source/js/main.js -o source/js/bundle.js",
+    "test": "npm run editorconfig && npm run stylelint",
     "build": "gulp build",
-    "start": "gulp && npm run browserify",
-    "gulp": "npm run start"
+    "start": "gulp && npm"
   },
   "editorconfig-cli": [
     "*.json",

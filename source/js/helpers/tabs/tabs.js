@@ -25,4 +25,4 @@ const tabs = () => {
   });
 }
 
-// module.exports = {tabs};
+module.exports = tabs;
