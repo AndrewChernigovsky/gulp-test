@@ -19,8 +19,8 @@ concat = require('gulp-concat');
 
 function fontW() {
   return src(['source/fonts/*.ttf'])
-  .pipe(ttf2woff())
-  .pipe(dest('production/fonts/'));
+    .pipe(ttf2woff())
+    .pipe(dest('production/fonts/'));
 };
 
 function fontW2() {
@@ -36,33 +36,33 @@ function clean() {
 
 function pug2html() {
   return src('source/pug/pages/*.pug')
-  .pipe(plumber())
-  .pipe(pug({pretty: true}))
-  .pipe(plumber.stop())
-  .pipe(sync.stream())
-  .pipe(dest('production/'))
+    .pipe(plumber())
+    .pipe(pug({pretty: true}))
+    .pipe(plumber.stop())
+    .pipe(sync.stream())
+    .pipe(dest('production/'))
 }
 
 function html() {
   return src("production/*.html")
-  .pipe(htmlmin({ collapseWhitespace: true }))
-  .pipe(sync.stream())
-  .pipe(dest("production/"))
+    .pipe(htmlmin({ collapseWhitespace: true }))
+    .pipe(sync.stream())
+    .pipe(dest("production/"))
 }
 
 
 function scss2css() {
   return src('source/sass/styles.scss')
-  .pipe(plumber())
-  .pipe(sourcemaps.init())
-  .pipe(sass())
-  .pipe(cssmin())
-  .pipe(autoprefixer())
-  .pipe(plumber.stop())
-  .pipe(sourcemaps.write())
-  .pipe(rename('style.min.css'))
-  .pipe(sync.stream())
-  .pipe(dest('production/css/'))
+    .pipe(plumber())
+    .pipe(sourcemaps.init())
+    .pipe(sass())
+    .pipe(cssmin())
+    .pipe(autoprefixer())
+    .pipe(plumber.stop())
+    .pipe(sync.stream())
+    .pipe(sourcemaps.write())
+    .pipe(rename('style.min.css'))
+    .pipe(dest('production/css/'))
 }
 
 function script() {
@@ -81,52 +81,52 @@ function script() {
 
 function copyJquery() {
   return src(['source/js/libs/jquery-3.6.0.min.js'])
-  .pipe(dest('production/js/libs/'))
+
 }
 
 function libs() {
   return src(['source/js/libs/swiper-bundle.min.js'])
-  .pipe(concat('libs.js'))
-  .pipe(dest('production/js/libs/'))
-}
+    .pipe(concat('libs.js'))
+    .pipe(dest('production/js/libs/'))
+  }
 
 function imageMin() {
   return src("source/image/**/*.{png,jpg,svg}")
-  .pipe(imagemin([
-    imagemin.mozjpeg({progressive: true}),
-    imagemin.optipng({optimizationLevel: 3}),
-    imagemin.svgo()
-  ]))
-  .pipe(dest("production/image"))
+    .pipe(imagemin([
+      imagemin.mozjpeg({progressive: true}),
+      imagemin.optipng({optimizationLevel: 3}),
+      imagemin.svgo()
+    ]))
+    .pipe(dest("production/image"))
 }
 
 function copyImages() {
   return src("source/image/**/*.{png,jpg,svg}")
-  .pipe(sync.stream())
-  .pipe(dest("production/image"))
+    .pipe(sync.stream())
+    .pipe(dest("production/image"))
 
 }
 
 function copy (done){
-  src([
+  return src([
     "source/fonts/*.{woff2,woff}",
     "source/*.ico",
     "source/image/**/*.svg",
     "!source/image/icons/*.svg",
-  ], {
-    base: "source"
-  })
-  .pipe(sync.stream())
-  .pipe(dest("production"))
-  done()
+    ], {
+      base: "source"
+    })
+    .pipe(sync.stream())
+    .pipe(dest("production"))
+    done()
 }
 
 function createWebp() {
   return src("source/image/**/*.{jpg,png}")
-  .pipe(webp({quality: 90}))
-  .pipe(sync.stream())
-  .pipe(dest("production/image"))
-}
+    .pipe(webp({quality: 90}))
+    .pipe(sync.stream())
+    .pipe(dest("production/image"))
+  }
 
 function sprite() {
   return src("source/image/icons/*.svg")
