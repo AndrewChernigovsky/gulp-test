@@ -1,4 +1,4 @@
-const gulp = require('gulp'),
+const {src,dest,series,parallel,watch} = require('gulp'),
 autoprefixer = require('gulp-autoprefixer'),
 sourcemaps = require('gulp-sourcemaps'),
 plumber = require('gulp-plumber'),
@@ -19,15 +19,15 @@ browserify = require('browserify'),
 concat = require('gulp-concat');
 
 function fontW() {
-  return gulp.src(['source/fonts/*.ttf'])
+  return src(['source/fonts/*.ttf'])
   .pipe(ttf2woff())
-  .pipe(gulp.dest('production/fonts/'));
+  .pipe(dest('production/fonts/'));
 };
 
 function fontW2() {
-  return gulp.src(['source/fonts/*.ttf'])
+  return src(['source/fonts/*.ttf'])
     .pipe(ttf2woff2())
-    .pipe(gulp.dest('production/fonts/'));
+    .pipe(dest('production/fonts/'));
 
 };
 
@@ -36,77 +36,80 @@ function clean() {
 }
 
 function pug2html() {
-  return gulp.src('source/pug/pages/*.pug')
+  return src('source/pug/pages/*.pug')
   .pipe(plumber())
   .pipe(pug({pretty: true}))
   .pipe(plumber.stop())
   .pipe(sync.stream())
-  .pipe(gulp.dest('production/'))
+  .pipe(dest('production/'))
 }
 
 function html() {
-  return gulp.src("production/*.html")
+  return src("production/*.html")
   .pipe(htmlmin({ collapseWhitespace: true }))
   .pipe(sync.stream())
-  .pipe(gulp.dest("production/"))
+  .pipe(dest("production/"))
 }
 
 
 function scss2css() {
-  return gulp.src('source/sass/styles.scss')
+  return src('source/sass/styles.scss')
   .pipe(plumber())
   .pipe(sourcemaps.init())
   .pipe(sass())
   .pipe(cssmin())
   .pipe(autoprefixer())
   .pipe(plumber.stop())
+  .pipe(sourcemaps.write())
   .pipe(rename('style.min.css'))
   .pipe(sync.stream())
-  .pipe(gulp.dest('production/css/'))
+  .pipe(dest('production/css/'))
 }
 
 function script() {
-  return gulp.src('source/js/main.js')
-  .pipe(sourcemaps.init())
-  .pipe(babel({
+  return src(["source/js/**/*.js","!source/js/libs/jquery-3.6.0.min.js"])
+    .pipe(sourcemaps.init())
+    .pipe(babel({
       presets: ['@babel/env']
-  }))
-  .pipe(uglify())
-  .pipe(rename('main.min.js'))
-  .pipe(sync.stream())
-  .pipe(gulp.dest('production/js/'))
+    }))
+    .pipe(uglify())
+    .pipe(concat('main.js'))
+    .pipe(sourcemaps.write())
+    .pipe(rename('main.min.js'))
+    .pipe(sync.stream())
+    .pipe(dest('production/js/'));
 }
 
 function copyJquery() {
-  return gulp.src(['source/js/libs/jquery-3.6.0.min.js'])
-  .pipe(gulp.dest('production/js/libs/'))
+  return src(['source/js/libs/jquery-3.6.0.min.js'])
+  .pipe(dest('production/js/libs/'))
 }
 
 function libs() {
-  return gulp.src(['source/js/libs/swiper-bundle.min.js'])
+  return src(['source/js/libs/swiper-bundle.min.js'])
   .pipe(concat('libs.js'))
-  .pipe(gulp.dest('production/js/libs/'))
+  .pipe(dest('production/js/libs/'))
 }
 
 function imageMin() {
-  return gulp.src("source/image/**/*.{png,jpg,svg}")
+  return src("source/image/**/*.{png,jpg,svg}")
   .pipe(imagemin([
     imagemin.mozjpeg({progressive: true}),
     imagemin.optipng({optimizationLevel: 3}),
     imagemin.svgo()
   ]))
-  .pipe(gulp.dest("production/image"))
+  .pipe(dest("production/image"))
 }
 
 function copyImages() {
-  return gulp.src("source/image/**/*.{png,jpg,svg}")
+  return src("source/image/**/*.{png,jpg,svg}")
   .pipe(sync.stream())
-  .pipe(gulp.dest("production/image"))
+  .pipe(dest("production/image"))
 
 }
 
 function copy (done){
-  gulp.src([
+  src([
     "source/fonts/*.{woff2,woff}",
     "source/*.ico",
     "source/image/**/*.svg",
@@ -115,25 +118,25 @@ function copy (done){
     base: "source"
   })
   .pipe(sync.stream())
-  .pipe(gulp.dest("production"))
+  .pipe(dest("production"))
   done()
 }
 
 function createWebp() {
-  return gulp.src("source/image/**/*.{jpg,png}")
+  return src("source/image/**/*.{jpg,png}")
   .pipe(webp({quality: 90}))
   .pipe(sync.stream())
-  .pipe(gulp.dest("production/image"))
+  .pipe(dest("production/image"))
 }
 
 function sprite() {
-  return gulp.src("source/image/icons/*.svg")
+  return src("source/image/icons/*.svg")
     .pipe(svgstore({
       inlineSvg: true
     }))
     .pipe(rename("sprite.svg"))
     .pipe(sync.stream())
-    .pipe(gulp.dest("production/image"))
+    .pipe(dest("production/image"))
 }
 
 function server(done){
@@ -154,21 +157,21 @@ function reload (done){
 }
 
 function watcher(){
-  gulp.watch("source/pug/**/*.pug", gulp.series(pug2html, reload));
-  gulp.watch("source/sass/**/*.scss", gulp.series(scss2css, reload));
-  gulp.watch("source/js/*.js", gulp.series(script, reload));
-  gulp.watch("source/*.html", gulp.series(html, reload));
-  gulp.watch("source/image/**/*.{jpg,png,svg,ico}", gulp.series(copyImages, reload));
+  watch("source/pug/**/*.pug", series(pug2html, reload));
+  watch("source/sass/**/*.scss", series(scss2css, reload));
+  watch("source/js/**/*.js", series(script, reload));
+  watch("source/*.html", series(html, reload));
+  watch("source/image/**/*.{jpg,png,svg,ico}", series(copyImages, reload));
 }
 
-exports.default = gulp.series(
+exports.default = series(
   clean,
   copy,
   copyImages,
   fontW,
   fontW2,
 
-  gulp.parallel(
+  parallel(
     pug2html,
     html,
     scss2css,
@@ -178,17 +181,18 @@ exports.default = gulp.series(
     copyJquery,
   ),
 
-  gulp.series(
+  series(
     server,
     watcher
   )
 );
 
-exports.build = gulp.series(
+exports.build = series(
   clean,
   copy,
   imageMin,
-  gulp.parallel(
+
+  parallel(
     pug2html,
     html,
     scss2css,
@@ -196,7 +200,7 @@ exports.build = gulp.series(
     sprite,
     createWebp
   ),
-  gulp.series(
+  series(
     server,
     watcher
   )
