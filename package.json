@@ -45,7 +45,6 @@
     "@babel/preset-env": "^7.15.0",
     "@htmlacademy/editorconfig-cli": "^1.0.0",
     "browser-sync": "^2.27.5",
-    "browserify": "^17.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-htmlmin": "^5.0.1",

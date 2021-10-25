@@ -15,7 +15,6 @@ svgstore = require("gulp-svgstore"),
 sync = require('browser-sync').create(),
 ttf2woff = require('gulp-ttf2woff'),
 ttf2woff2 = require('gulp-ttf2woff2'),
-browserify = require('browserify'),
 concat = require('gulp-concat');
 
 function fontW() {
@@ -70,7 +69,7 @@ function script() {
   return src(["source/js/**/*.js","!source/js/libs/jquery-3.6.0.min.js"])
     .pipe(sourcemaps.init())
     .pipe(babel({
-      presets: ['@babel/env']
+      presets: [['@babel/env', {"modules": false}]]
     }))
     .pipe(uglify())
     .pipe(concat('main.js'))
