@@ -1,24 +1,45 @@
 .tabs {
   &__wrapper {
+
+  }
+
+  &__header {
     display: flex;
+    padding-left: 0;
+  }
+
+  &__body {
+    width: 50rem;
+    height: 30rem;
+    background-color:palevioletred;
   }
 
   &__content {
     display: none;
-    padding: 10px 20px;
-    width: 30rem;
+    padding: 1rem 0;
     height: 10rem;
+    width: inherit;
+    text-align: center;
+  }
+
+  &__content.active {
+    display: block;
+  }
+
+  &__tab {
+    width: 10rem;
+    height: 10rem;
+    background-color: black;
+  }
+
+  &__tab.active {
+    background-color: red;
+    display: block;
+    transition: 0.3s ease-in-out;
   }
 
   &__link {
     font-size: 2.4rem;
-    width: 10rem;
-    height: 10rem;
-    background-color: black;
     color: orange;
-  }
-
-  .js-tabs-active {
-    display: block;
   }
 }

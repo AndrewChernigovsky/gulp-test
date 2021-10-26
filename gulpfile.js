@@ -1,4 +1,5 @@
-const {src,dest,series,parallel,watch} = require('gulp'),
+const
+{src,dest,series,parallel,watch} = require('gulp'),
 autoprefixer = require('gulp-autoprefixer'),
 sourcemaps = require('gulp-sourcemaps'),
 plumber = require('gulp-plumber'),
@@ -15,6 +16,8 @@ svgstore = require("gulp-svgstore"),
 sync = require('browser-sync').create(),
 ttf2woff = require('gulp-ttf2woff'),
 ttf2woff2 = require('gulp-ttf2woff2'),
+notify = require('gulp-notify'),
+qgcmq = require('gulp-group-css-media-queries'),
 concat = require('gulp-concat');
 
 function fontW() {
@@ -52,17 +55,20 @@ function html() {
 
 
 function scss2css() {
+
   return src('source/sass/styles.scss')
-    .pipe(plumber())
+    .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
     .pipe(sourcemaps.init())
     .pipe(sass())
-    .pipe(cssmin())
     .pipe(autoprefixer())
-    .pipe(plumber.stop())
+    .pipe(qgcmq())
+    .pipe(cssmin())
     .pipe(sync.stream())
     .pipe(sourcemaps.write())
     .pipe(rename('style.min.css'))
+    .pipe(plumber.stop())
     .pipe(dest('production/css/'))
+    .pipe(notify())
 }
 
 function script() {
@@ -81,7 +87,7 @@ function script() {
 
 function copyJquery() {
   return src(['source/js/libs/jquery-3.6.0.min.js'])
-
+  .pipe(dest('production/js/libs/'))
 }
 
 function libs() {
