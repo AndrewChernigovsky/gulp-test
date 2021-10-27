@@ -1,5 +1,4 @@
-const
-{src,dest,series,parallel,watch} = require('gulp'),
+const {src,dest,series,parallel,watch} = require('gulp'),
 autoprefixer = require('gulp-autoprefixer'),
 sourcemaps = require('gulp-sourcemaps'),
 plumber = require('gulp-plumber'),
@@ -42,33 +41,31 @@ function pug2html() {
     .pipe(plumber())
     .pipe(pug({pretty: true}))
     .pipe(plumber.stop())
-    .pipe(sync.stream())
     .pipe(dest('production/'))
+    .pipe(sync.stream())
 }
 
 function html() {
   return src("production/*.html")
     .pipe(htmlmin({ collapseWhitespace: true }))
-    .pipe(sync.stream())
     .pipe(dest("production/"))
+    .pipe(sync.stream())
 }
 
 
 function scss2css() {
 
   return src('source/sass/styles.scss')
-    .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
+    .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
     .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(autoprefixer())
     .pipe(qgcmq())
     .pipe(cssmin())
-    .pipe(sync.stream())
     .pipe(sourcemaps.write())
     .pipe(rename('style.min.css'))
-    .pipe(plumber.stop())
     .pipe(dest('production/css/'))
-    .pipe(notify())
+    .pipe(sync.stream())
 }
 
 function script() {
@@ -81,8 +78,8 @@ function script() {
     .pipe(concat('main.js'))
     .pipe(sourcemaps.write())
     .pipe(rename('main.min.js'))
-    .pipe(sync.stream())
-    .pipe(dest('production/js/'));
+    .pipe(dest('production/js/'))
+    .pipe(sync.stream());
 }
 
 function copyJquery() {
@@ -104,12 +101,13 @@ function imageMin() {
       imagemin.svgo()
     ]))
     .pipe(dest("production/image"))
+    .pipe(sync.stream())
 }
 
 function copyImages() {
   return src("source/image/**/*.{png,jpg,svg}")
-    .pipe(sync.stream())
     .pipe(dest("production/image"))
+    .pipe(sync.stream())
 
 }
 
@@ -122,16 +120,16 @@ function copy (done){
     ], {
       base: "source"
     })
-    .pipe(sync.stream())
     .pipe(dest("production"))
+    .pipe(sync.stream())
     done()
 }
 
 function createWebp() {
   return src("source/image/**/*.{jpg,png}")
     .pipe(webp({quality: 90}))
-    .pipe(sync.stream())
     .pipe(dest("production/image"))
+    .pipe(sync.stream())
   }
 
 function sprite() {
@@ -140,8 +138,8 @@ function sprite() {
       inlineSvg: true
     }))
     .pipe(rename("sprite.svg"))
-    .pipe(sync.stream())
     .pipe(dest("production/image"))
+    .pipe(sync.stream())
 }
 
 function server(done){
