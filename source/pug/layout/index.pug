@@ -5,11 +5,7 @@ html(lang='en').page
   title #{title}
   body.page__body
     .container
-      include sections/header
-      section.main-section
-        .section-wrapper
-          include tabs/tabs
-          h2.secondary-heading Title
-          p.primary-text privet
-      include sections/footer
-    include ../helpers/common
+      block header
+      block main
+      block footer
+      include ../helpers/common

@@ -1,24 +1,35 @@
-.tabs
-  .tabs__wrapper
-    ul.tabs__header
-      li(data-tab='1').tabs__tab.js-tabs-header.active
-        button(type='button').tabs__link privet1
-      li(data-tab='2').tabs__tab.js-tabs-header
-        button(type='button').tabs__link privet2
-      li(data-tab='3').tabs__tab.js-tabs-header
-        button(type='button').tabs__link privet3
-      li(data-tab='4').tabs__tab.js-tabs-header
-        button(type='button').tabs__link privet4
-      li(data-tab='5').tabs__tab.js-tabs-header
-        button(type='button').tabs__link privet5
-    .tabs__body
-      div(data-tab='1').tabs__content.js-tabs-body.active
-        p.tabs__text popup
-      div(data-tab='2').tabs__content.js-tabs-body
-        p.tabs__text popup2
-      div(data-tab='3').tabs__content.js-tabs-body
-        p.tabs__text popup3
-      div(data-tab='4').tabs__content.js-tabs-body
-        p.tabs__text popup4
-      div(data-tab='5').tabs__content.js-tabs-body
-        p.tabs__text popup5
+block tabs
+  .tabs
+    .tabs__wrapper
+      ul.tabs__header
+        li(data-tab='1').tabs__tab.js-tabs-header.active
+          button(type='button').tabs__link privet1
+        li(data-tab='2').tabs__tab.js-tabs-header
+          button(type='button').tabs__link privet2
+        li(data-tab='3').tabs__tab.js-tabs-header
+          button(type='button').tabs__link privet3
+        li(data-tab='4').tabs__tab.js-tabs-header
+          button(type='button').tabs__link privet4
+        li(data-tab='5').tabs__tab.js-tabs-header
+          button(type='button').tabs__link privet5
+      .tabs__body
+        div(data-tab='1').tabs__content.js-tabs-body.active
+          p.tabs__text Calculator ONE
+          .tabs__content-wrapper
+            input(type="number", name="result", id="num1")
+            input(type="number", name="result", id="num2")
+            .calculate-buttons#operators
+              button.btn.btn-calc#plus(type='button') +
+              button.btn.btn-calc#minus(type='button') -
+              button.btn.btn-calc#times(type='button') *
+              button.btn.btn-calc#devide(type='button') /
+            input(type="number", name="result", id="result")
+            button.btn.btn-calc(type='button') result
+        div(data-tab='2').tabs__content.js-tabs-body
+          p.tabs__text popup2
+        div(data-tab='3').tabs__content.js-tabs-body
+          p.tabs__text popup3
+        div(data-tab='4').tabs__content.js-tabs-body
+          p.tabs__text popup4
+        div(data-tab='5').tabs__content.js-tabs-body
+          p.tabs__text popup5

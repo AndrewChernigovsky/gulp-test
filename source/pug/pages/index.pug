@@ -1,1 +1,14 @@
-include ../layout/index.pug
+extends ../layout/index.pug
+
+block header
+  include ../layout/sections/header
+
+block main
+ section.main-section
+    .section-wrapper
+      h2.secondary-heading Title
+        p.primary-text privet
+    include ../layout/tabs/tabs
+
+block footer
+  include ../layout/sections/footer
