@@ -10,6 +10,7 @@ class Calculator {
   constructor(prevOperandtext, currOperandtext) {
     this.prevOperandtext = prevOperandtext
     this.currOperandtext = currOperandtext
+    this.clear()
   }
 
   clear() {

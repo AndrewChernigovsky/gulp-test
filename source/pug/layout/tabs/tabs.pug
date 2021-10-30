@@ -3,9 +3,9 @@ block tabs
     .tabs__wrapper
       ul.tabs__header
         li(data-tab='1').tabs__tab.js-tabs-header.active
-          button(type='button').tabs__link privet1
+          button(type='button').tabs__link Simple
         li(data-tab='2').tabs__tab.js-tabs-header
-          button(type='button').tabs__link privet2
+          button(type='button').tabs__link Normal
         li(data-tab='3').tabs__tab.js-tabs-header
           button(type='button').tabs__link privet3
         li(data-tab='4').tabs__tab.js-tabs-header
@@ -15,34 +15,13 @@ block tabs
       .tabs__body
         div(data-tab='1').tabs__content.js-tabs-body.active
           .tabs__content-wrapper
-            .calculate
-            p.tabs__text Calculator ONE
-            .calculate__output
-              div(data-previous-operand).previous-operand
-              div(data-current-operand).current-operand
-            .calculate__buttons#operators
-              button.btn.btn-calc.btn-span(type='button' data-all-clear) AC
-              button.btn.btn-calc(type='button' data-delete) DEL
-              button.btn.btn-calc(type='button' data-operation) /
-              button.btn.btn-calc(type='button' data-number) 1
-              button.btn.btn-calc(type='button' data-number) 2
-              button.btn.btn-calc(type='button' data-number) 3
-              button.btn.btn-calc(type='button' data-operation) *
-              button.btn.btn-calc(type='button' data-number) 4
-              button.btn.btn-calc(type='button' data-number) 5
-              button.btn.btn-calc(type='button' data-number) 6
-              button.btn.btn-calc(type='button' data-operation) +
-              button.btn.btn-calc(type='button' data-number) 7
-              button.btn.btn-calc(type='button' data-number) 8
-              button.btn.btn-calc(type='button' data-number) 9
-              button.btn.btn-calc(type='button' data-operation) -
-              button.btn.btn-calc(type='button' data-number) .
-              button.btn.btn-calc(type='button' data-number) 0
-              button.btn.btn-calc.btn-span(type='button' data-equals) =
+            include ../../blocks/caluclatorTwo
         div(data-tab='2').tabs__content.js-tabs-body
-          p.tabs__text popup2
+          .tabs__content-wrapper
+            include ../../blocks/calculatorOne
         div(data-tab='3').tabs__content.js-tabs-body
-          p.tabs__text popup3
+          .tabs__content-wrapper
+            include ../../blocks/calculatorThree
         div(data-tab='4').tabs__content.js-tabs-body
           p.tabs__text popup4
         div(data-tab='5').tabs__content.js-tabs-body

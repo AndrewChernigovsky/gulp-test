@@ -13,14 +13,15 @@
 
   &__body {
     width: 50rem;
-    height: 30rem;
-    background-color:palevioletred;
+    min-height: 30rem;
+    background-color: transparent;
+    border: 0.1rem solid $black;
   }
 
   &__content {
     display: none;
     padding: 1rem 0;
-    height: 10rem;
+    min-height: 10rem;
     width: inherit;
     text-align: center;
   }
