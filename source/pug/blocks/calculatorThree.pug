@@ -9,24 +9,26 @@
     div(onclick="").item tan
     div(onclick="").item ctg
 
-    div(onclick="").item x
+    div(onclick="operation('^')").item x
+      span.upper y
+    div(onclick="operation('pow')").item x
       span.upper 2
-    div(onclick="").item x
+    div(onclick="operation('pow-1')").item x
       span.upper -1
     div(onclick="").item lg
     div(onclick="").item In
     div(onclick="insert('(')").item &#40;
     div(onclick="insert(')')").item &#41;
-    div(onclick="").item &#8730;
+    div(onclick="operation('sqrt')").item &#8730;
     div(onclick="insert('+')").item.plus &#43;
     div(onclick="insert('-')").item.substract &#45;
     div(onclick="insert('*')").item.multiply &#215;
     div(onclick="insert('/')").item.devide &#47;
-    div(onclick="insert('%')").item.percent &#37;
+    div(onclick="percent()").item.percent &#37;
     div(onclick="").item x!
     div(onclick="").item 1/x
-    div(onclick="").item &#960;
-    div(onclick="").item &#101;
+    div(onclick="constant('pi')").item &#960;
+    div(onclick="constant('e')").item &#101;
     div(onclick="insert('7')").item &#55;
     div(onclick="insert('8')").item &#56;
     div(onclick="insert('9')").item &#57;
