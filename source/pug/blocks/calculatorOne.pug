@@ -1,28 +1,12 @@
-.calculate
-  p.tabs__text Calculator ONE
-  .calculate__output
-    div(data-previous-operand).previous-operand
-    div(data-current-operand).current-operand
-  .calculate__buttons#operators
-    button.btn.btn-calc.btn-span(type='button' data-all-clear) AC
-    button.btn.btn-calc(type='button' data-delete) DEL
-    button.btn.btn-calc(type='button' data-operation) /
-    button.btn.btn-calc(type='button' data-operation) *
-    button.btn.btn-calc(type='button' data-operation) +
-    button.btn.btn-calc(type='button' data-operation) -
+.calculator-one
+  p Number one
+  input(type='text' id='n1')
+  p Number two
+  input(type='text' id='n2')
+  .calculator-one__buttons
+    button(type='button' onclick='plus()').btn-calc +
+    button(type='button' onclick='substract()').btn-calc -
+    button(type='button' onclick='multiply()').btn-calc X
+    button(type='button' onclick='division()').btn-calc \
 
-    button.btn.btn-calc(type='button' data-number) 1
-    button.btn.btn-calc(type='button' data-number) 2
-    button.btn.btn-calc(type='button' data-number) 3
-
-    button.btn.btn-calc(type='button' data-number) 4
-    button.btn.btn-calc(type='button' data-number) 5
-    button.btn.btn-calc(type='button' data-number) 6
-
-    button.btn.btn-calc(type='button' data-number) 7
-    button.btn.btn-calc(type='button' data-number) 8
-    button.btn.btn-calc(type='button' data-number) 9
-
-    button.btn.btn-calc(type='button' data-number) .
-    button.btn.btn-calc(type='button' data-number) 0
-    button.btn.btn-calc.btn-span(type='button' data-equals) =
+  p#out Result

@@ -2,10 +2,6 @@
   display: flex;
   justify-content: center;
 
-  &__wrapper {
-
-  }
-
   &__header {
     display: flex;
     padding-left: 0;
@@ -31,19 +27,25 @@
   }
 
   &__tab {
-    width: 10rem;
-    height: 10rem;
-    background-color: black;
+    min-width: 10rem;
+    height: max-content;
+    background-color: grey;
   }
 
   &__tab.active {
-    background-color: red;
+    background-color: blanchedalmond;
     display: block;
     transition: 0.3s ease-in-out;
+
+    .tabs__link {
+      color: black;
+    }
   }
 
   &__link {
     font-size: 2.4rem;
-    color: orange;
+    color: wheat;
+    background-color: transparent;
+    border: none;
   }
 }

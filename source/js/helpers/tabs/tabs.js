@@ -1,34 +1,4 @@
-// const active = 'js-tabs-active';
-
-// const
-//   tab = document.querySelector('.tabs'),
-//   tabButton = document.querySelectorAll('.tabs__tab'),
-//   contents = document.querySelectorAll('.tabs__content'),
-//   tabsLinks = document.querySelectorAll('.tabs__link');
-
-// function tabs (cb) {
-
-//   tabButton.forEach(el => {
-//     if (el.classList.contains(active)){
-//       el.classList.remove(active);
-//     } else {
-//       el.classList.add(active);
-//     }
-//   });
-
-//   contents.forEach(el => {
-//     if(el.classList.contains(active)){
-//       el.classList.remove(active);
-//     } else {
-//       el.classList.add(active);
-//     }
-//   })
-
-//   cb()
-// };
-
-
-// tabButton.addEventListener = () => cb('click')
+// tabs
 $(document).ready(function(){
 
   $('.js-tabs-header').click(function() {
@@ -39,6 +9,19 @@ $(document).ready(function(){
     $(this).addClass('active');
 
     $('.js-tabs-body.active').removeClass('active');
+    content.addClass('active');
+  });
+
+  // tabs-calc
+
+  $('.js-tabs-calc-header').click(function() {
+    var id = $(this).attr('data-tab'),
+        content = $('.js-tabs-calc-body[data-tab="'+ id +'"]');
+
+    $('.js-tabs-calc-header.active').removeClass('active');
+    $(this).addClass('active');
+
+    $('.js-tabs-calc-body.active').removeClass('active');
     content.addClass('active');
   });
 

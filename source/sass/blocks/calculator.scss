@@ -39,7 +39,7 @@
     border: 0.1rem $black solid;
     margin-bottom: 1rem;
     padding: 1rem;
-    background-color: brown;
+    background-color: rosybrown;
 
     .previous-operand {
       font-size: 1.5rem;
@@ -53,9 +53,8 @@
   }
  }
 
- .calculator-two {
-  display: grid;
-  width: 30rem;
+ .calculator-one {
+  width: 20rem;
   margin: 0 auto;
   font-size: 2.4rem;
   border: 0.1rem solid $black;
@@ -64,10 +63,10 @@
     display: grid;
     grid-template-columns: repeat(4, auto);
     gap: 1rem;
-    border: 0.1rem $black solid;
-    padding: 1rem;
-    background-color: $black;
+    padding: 1rem 0;
     color: $white;
+    width: 19.5rem;
+    margin: 0 auto;
 
     .btn-calc {
       background-color: orange;
@@ -83,6 +82,13 @@
       }
     }
   }
+  input {
+    width: 18rem;
+  }
+  p {
+    margin-bottom: 0;
+    margin-top: 1rem;
+  }
  }
 
  .calculator-three {
@@ -93,7 +99,7 @@
   background-color: $black;
   font-family:Arial, Helvetica, sans-serif;
 
-   &__buttons {
+    &__buttons {
     display: grid;
     grid-template-columns: repeat(4, auto);
     gap: 1rem;
