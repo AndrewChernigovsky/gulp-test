@@ -100,12 +100,17 @@
   font-family:Arial, Helvetica, sans-serif;
 
     &__buttons {
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
     padding: 1rem;
+
+
+      .stadart-simple {
+        display: flex;
+        flex-wrap: wrap;
+
+        .wrapper {
+          display: flex;
+        }
+      }
 
     .item {
       border: 0.1rem solid orange;
