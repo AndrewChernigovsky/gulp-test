@@ -1,8 +1,15 @@
 const input = document.querySelector('.input');
+const UnCalc = document.querySelector('.upstandart-calc');
+const openCalc = document.querySelector('.open');
 
 let power = "";
 
 const type = document.querySelector('.type');
+
+
+openCalc.addEventListener('click' , function(){
+  UnCalc.classList.toggle("js-upcalc-active");
+})
 
 function insert(num) {
   if(input.textContent == 0) {
